@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="wogua-server-demo-api" />
+        <module name="wogua-server-demo-service" />
+        <module name="wogua-auth" />
+        <module name="wogua-common" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="wogua-auth" options="-parameters" />
+      <module name="wogua-cloud" options="-parameters" />
+      <module name="wogua-common" options="-parameters" />
+      <module name="wogua-server" options="-parameters" />
+      <module name="wogua-server-demo" options="-parameters" />
+      <module name="wogua-server-demo-api" options="-parameters" />
+      <module name="wogua-server-demo-service" options="-parameters" />
+    </option>
+  </component>
+</project>
