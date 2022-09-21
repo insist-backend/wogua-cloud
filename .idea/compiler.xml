@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="wogua-server-demo-api" />
+        <module name="wogua-common-core" />
         <module name="wogua-server-demo-service" />
         <module name="wogua-auth" />
         <module name="wogua-common" />
@@ -18,6 +19,7 @@
       <module name="wogua-auth" options="-parameters" />
       <module name="wogua-cloud" options="-parameters" />
       <module name="wogua-common" options="-parameters" />
+      <module name="wogua-common-core" options="-parameters" />
       <module name="wogua-server" options="-parameters" />
       <module name="wogua-server-demo" options="-parameters" />
       <module name="wogua-server-demo-api" options="-parameters" />

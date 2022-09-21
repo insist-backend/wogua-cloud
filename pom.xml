@@ -12,6 +12,7 @@
         <module>wogua-auth</module>
         <module>wogua-common</module>
         <module>wogua-server</module>
+        <module>wogua-common/wogua-common-core</module>
     </modules>
 
 
