@@ -1,5 +1,6 @@
 package center.helloworld.server.demo.service;
 
+import center.helloworld.server.demo.service.annotation.EnableWoguaAuthExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableWoguaAuthExceptionHandler
 @EnableGlobalMethodSecurity(prePostEnabled = true) //注解，表示开启Spring Cloud Security权限注解
 public class ServerDemoApp {
 

@@ -1,0 +1,56 @@
+package center.helloworld.common.core.code;
+
+/**
+ * @author zhishun.cai
+ * @date 2021/4/1 16:43
+ * @note
+ */
+
+public enum ResCode {
+
+    ERROR(false, 0, "操作失败"),
+    SUCCESS(true, 1, "操作成功"),
+    SYSTEM_ERROR(false, 2, "系统异常"),
+    ERROR_REQUEST_PARAMS(false, 3, "请求参数错误"),
+
+    ;
+
+    private boolean flag;
+
+    private Integer code;
+
+    private String message;
+
+    ResCode() {
+    }
+
+    ResCode(boolean flag, Integer code, String message) {
+        this.flag = flag;
+        this.code = code;
+        this.message = message;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}

@@ -9,8 +9,8 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
   redis:
-    database: 0
-    host: 127.0.0.1
+    database: 2
+    host: 192.168.111.17
     port: 6379
     jedis:
       pool:
@@ -19,3 +19,4 @@ spring:
         max-active: 2000
         max-wait: 10000
     timeout: 5000
+    password: prinfo
