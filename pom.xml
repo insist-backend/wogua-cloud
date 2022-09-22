@@ -11,8 +11,12 @@
     <modules>
         <module>wogua-auth</module>
         <module>wogua-common</module>
-        <module>wogua-server</module>
         <module>wogua-common/wogua-common-core</module>
+        <module>wogua-server</module>
+        <module>wogua-starter</module>
+        <module>wogua-starter/wogua-starter-datasource</module>
+        <module>wogua-starter/wogua-starter-security</module>
+        <module>wogua-common/wogua-common-entity</module>
     </modules>
 
 
@@ -21,6 +25,10 @@
         <hutool.version>5.8.0</hutool.version>
         <spring-cloud-alibaba-version>2.1.1.RELEASE</spring-cloud-alibaba-version>
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <p6spy.version>3.8.5</p6spy.version>
+        <fastjson.version>1.2.70</fastjson.version>
+        <dynamic-datasource.version>3.5.2</dynamic-datasource.version>
     </properties>
 
     <parent>
@@ -50,6 +58,26 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
