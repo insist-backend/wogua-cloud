@@ -57,7 +57,7 @@ public class WoguaCloudSecurityAutoConfigure extends GlobalMethodSecurityConfigu
     @Bean
     @Primary
     @ConditionalOnMissingBean(DefaultTokenServices.class)
-    public WoguaUserInfoTokenServices febsUserInfoTokenServices(ResourceServerProperties properties) {
+    public WoguaUserInfoTokenServices woguaUserInfoTokenServices(ResourceServerProperties properties) {
         return new WoguaUserInfoTokenServices(properties.getUserInfoUri(), properties.getClientId());
     }
 

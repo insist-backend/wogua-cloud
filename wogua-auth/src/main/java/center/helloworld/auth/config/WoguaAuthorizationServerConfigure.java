@@ -1,29 +1,34 @@
 package center.helloworld.auth.config;
 
 import center.helloworld.auth.properties.WoguaAuthProperties;
-import center.helloworld.auth.properties.WoguaClientsProperties;
+import center.helloworld.auth.service.RedisClientDetailsService;
 import center.helloworld.auth.service.WoguaUserDetailService;
+import center.helloworld.auth.service.impl.RedisAuthenticationCodeService;
 import center.helloworld.auth.translator.WoguaWebResponseExceptionTranslator;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
+import java.util.UUID;
 
 /**
  * <p>
@@ -35,55 +40,33 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableAuthorizationServer
+@RequiredArgsConstructor
 public class WoguaAuthorizationServerConfigure extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final RedisAuthenticationCodeService authenticationCodeService;
 
-    @Autowired
+    private final AuthenticationManager authenticationManager;
+
     private WoguaUserDetailService userDetailService;
 
-    @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    private WoguaWebResponseExceptionTranslator exceptionTranslator;
+    private final WoguaWebResponseExceptionTranslator exceptionTranslator;
 
-    @Autowired
-    private WoguaAuthProperties authProperties;
+    private final WoguaAuthProperties authProperties;
 
-    @Autowired
-    private DataSource dataSource;
+    private final RedisClientDetailsService redisClientDetailsService;
 
     /**
-     * 客户端配置
+     * 客户端配置,
      * @param clients
      * @throws Exception
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        // client 存放在配置文件中
-        WoguaClientsProperties[] clientsArray = authProperties.getClients();
-        InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
-        if(ArrayUtils.isNotEmpty(clientsArray)) {
-            for (WoguaClientsProperties client : clientsArray) {
-                if (StringUtils.isBlank(client.getClient())) {
-                    throw new Exception("client不能为空");
-                }
-                if (StringUtils.isBlank(client.getSecret())) {
-                    throw new Exception("secret不能为空");
-                }
-                String[] grantTypes = StringUtils.splitByWholeSeparatorPreserveAllTokens(client.getGrantType(), ",");
-                builder.withClient(client.getClient())
-                        .secret(passwordEncoder.encode(client.getSecret()))
-                        .authorizedGrantTypes(grantTypes)
-                        .scopes(client.getScope());
-            }
-        }
-        // 如果需要指定多个client，可以继续使用withClient配置。
+        // RedisClientDetailsService 集成自JDBC实现MySQL和Redis双存储
+       clients.withClientDetails(redisClientDetailsService);
     }
 
     /**
@@ -94,14 +77,39 @@ public class WoguaAuthorizationServerConfigure extends AuthorizationServerConfig
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.tokenStore(tokenStore())
                 .userDetailsService(userDetailService)
+                .authorizationCodeServices(authenticationCodeService)
                 .authenticationManager(authenticationManager)
-                .exceptionTranslator(exceptionTranslator) // 异常翻译实现自定义异常
-                .tokenServices(defaultTokenServices());
+                .exceptionTranslator(exceptionTranslator);
+        if (authProperties.getEnableJwt()) {
+            endpoints.accessTokenConverter(jwtAccessTokenConverter());
+        }
+    }
+
+    /**
+     * 令牌存储策略
+     * @return
+     */
+    @Bean
+    public TokenStore tokenStore() {
+        if (authProperties.getEnableJwt()) {
+            return new JwtTokenStore(jwtAccessTokenConverter());
+        } else {
+            RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+            // 解决每次生成的 token都一样的问题
+            redisTokenStore.setAuthenticationKeyGenerator(oAuth2Authentication -> UUID.randomUUID().toString());
+            return redisTokenStore;
+        }
     }
 
     @Bean
-    public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+        DefaultAccessTokenConverter defaultAccessTokenConverter = (DefaultAccessTokenConverter) accessTokenConverter.getAccessTokenConverter();
+        DefaultUserAuthenticationConverter userAuthenticationConverter = new DefaultUserAuthenticationConverter();
+        userAuthenticationConverter.setUserDetailsService(userDetailService);
+        defaultAccessTokenConverter.setUserTokenConverter(userAuthenticationConverter);
+        accessTokenConverter.setSigningKey(authProperties.getJwtAccessKey());
+        return accessTokenConverter;
     }
 
     @Primary
@@ -110,9 +118,21 @@ public class WoguaAuthorizationServerConfigure extends AuthorizationServerConfig
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
-        // 从配置文件中获取访问令牌和刷新令牌的时间
-        tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
-        tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
+        tokenServices.setClientDetailsService(redisClientDetailsService);
         return tokenServices;
+    }
+
+    @Bean
+    public ResourceOwnerPasswordTokenGranter resourceOwnerPasswordTokenGranter(AuthenticationManager authenticationManager, OAuth2RequestFactory oAuth2RequestFactory) {
+        DefaultTokenServices defaultTokenServices = defaultTokenServices();
+        if (authProperties.getEnableJwt()) {
+            defaultTokenServices.setTokenEnhancer(jwtAccessTokenConverter());
+        }
+        return new ResourceOwnerPasswordTokenGranter(authenticationManager, defaultTokenServices, redisClientDetailsService, oAuth2RequestFactory);
+    }
+
+    @Bean
+    public DefaultOAuth2RequestFactory oAuth2RequestFactory() {
+        return new DefaultOAuth2RequestFactory(redisClientDetailsService);
     }
 }

@@ -10,13 +10,21 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = {"classpath:wogua-auth.properties"})
 @ConfigurationProperties(prefix = "wogua.auth")
 public class WoguaAuthProperties {
-    private WoguaClientsProperties[] clients = {};
     /**
-     * access_token的有效时间，默认值为60 * 60 * 24秒；
+     * 验证码配置
      */
-    private int accessTokenValiditySeconds = 60 * 60 * 24;
+    private WoguaValidateCodeProperties code = new WoguaValidateCodeProperties();
     /**
-     * refresh_token的有效时间，默认值为60 * 60 * 24 * 7秒。
+     * JWT加签密钥
      */
-    private int refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
+    private String jwtAccessKey;
+    /**
+     * 是否使用 JWT令牌
+     */
+    private Boolean enableJwt;
+
+    /**
+     * 社交登录所使用的 Client
+     */
+    private String socialLoginClientId;
 }

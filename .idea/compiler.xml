@@ -9,6 +9,7 @@
         <module name="wogua-starter-datasource" />
         <module name="wogua-common-entity" />
         <module name="wogua-auth" />
+        <module name="wogua-starter-redis" />
         <module name="wogua-common" />
         <module name="wogua-starter-security" />
         <module name="wogua-server-demo-api" />
@@ -35,6 +36,7 @@
       <module name="wogua-server-demo-service" options="-parameters" />
       <module name="wogua-starter" options="-parameters" />
       <module name="wogua-starter-datasource" options="-parameters" />
+      <module name="wogua-starter-redis" options="-parameters" />
       <module name="wogua-starter-security" options="-parameters" />
     </option>
   </component>

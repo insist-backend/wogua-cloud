@@ -1,6 +1,10 @@
 package center.helloworld.auth.config;
 
+import center.helloworld.auth.filter.ValidateCodeFilter;
+import center.helloworld.auth.handler.WoguaWebLoginFailureHandler;
+import center.helloworld.auth.handler.WoguaWebLoginSuccessHandler;
 import center.helloworld.auth.service.WoguaUserDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
@@ -11,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * <p>
@@ -22,13 +27,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Order(2)
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WoguaSecurityConfigure extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private WoguaUserDetailService userDetailService;
+    private final WoguaUserDetailService userDetailService;
 
-   @Autowired
-   private PasswordEncoder passwordEncoder;
+   private final PasswordEncoder passwordEncoder;
+
+    private final ValidateCodeFilter validateCodeFilter;
+
+    private final WoguaWebLoginSuccessHandler successHandler;
+
+    private final WoguaWebLoginFailureHandler failureHandler;
 
     /**
      * 认证管理器
@@ -45,14 +55,21 @@ public class WoguaSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 安全配置类只对/oauth/开头的请求有效。
-        http.requestMatchers()
-                .antMatchers("/oauth/**")
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .requestMatchers()
+                .antMatchers("/oauth/**","/login")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/oauth/**").authenticated()
                 .and()
-                .csrf().disable();
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .successHandler(successHandler)
+                .failureHandler(failureHandler)
+                .permitAll()
+                .and().csrf().disable()
+                .httpBasic().disable();
     }
 
     @Override

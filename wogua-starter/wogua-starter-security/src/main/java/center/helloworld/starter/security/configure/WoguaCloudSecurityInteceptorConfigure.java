@@ -18,15 +18,15 @@ public class WoguaCloudSecurityInteceptorConfigure implements WebMvcConfigurer {
     }
 
     @Bean
-    public HandlerInterceptor febsServerProtectInterceptor() {
-        WoguaServerProtectInterceptor febsServerProtectInterceptor = new WoguaServerProtectInterceptor();
-        febsServerProtectInterceptor.setProperties(properties);
-        return febsServerProtectInterceptor;
+    public HandlerInterceptor woguaServerProtectInterceptor() {
+        WoguaServerProtectInterceptor woguaServerProtectInterceptor = new WoguaServerProtectInterceptor();
+        woguaServerProtectInterceptor.setProperties(properties);
+        return woguaServerProtectInterceptor;
     }
 
     @Override
     @SuppressWarnings("all")
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(febsServerProtectInterceptor());
+        registry.addInterceptor(woguaServerProtectInterceptor());
     }
 }

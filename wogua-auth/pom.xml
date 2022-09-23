@@ -19,8 +19,22 @@
     <dependencies>
         <dependency>
             <groupId>center.helloworld</groupId>
+            <artifactId>wogua-starter-redis</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>center.helloworld</groupId>
             <artifactId>wogua-common</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>center.helloworld</groupId>
+            <artifactId>wogua-starter-security</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
