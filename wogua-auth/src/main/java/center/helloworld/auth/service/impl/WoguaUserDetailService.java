@@ -1,17 +1,18 @@
-package center.helloworld.auth.service;
+package center.helloworld.auth.service.impl;
 
-import center.helloworld.auth.AuthUser;
-import center.helloworld.auth.entity.WoguaAuthUser;
+import center.helloworld.auth.manager.UserManager;
 import center.helloworld.common.core.entity.system.SystemUser;
+import center.helloworld.common.entity.auth.AuthUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -28,10 +29,14 @@ public class WoguaUserDetailService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
     private UserManager userManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        String authorization = request.getHeader("Authorization");
         SystemUser systemUser = userManager.findByName(username);
         if (systemUser != null) {
             String permissions = userManager.findUserPermissions(systemUser.getUsername());

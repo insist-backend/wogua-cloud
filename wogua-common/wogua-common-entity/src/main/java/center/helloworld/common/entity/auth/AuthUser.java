@@ -1,4 +1,4 @@
-package center.helloworld.auth;
+package center.helloworld.common.entity.auth;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

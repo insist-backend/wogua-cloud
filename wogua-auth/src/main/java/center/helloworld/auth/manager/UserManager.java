@@ -1,4 +1,4 @@
-package center.helloworld.auth.service;
+package center.helloworld.auth.manager;
 
 import center.helloworld.auth.mapper.MenuMapper;
 import center.helloworld.auth.mapper.UserMapper;

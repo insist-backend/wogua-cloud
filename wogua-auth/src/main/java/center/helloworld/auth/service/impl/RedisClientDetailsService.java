@@ -1,4 +1,4 @@
-package center.helloworld.auth.service;
+package center.helloworld.auth.service.impl;
 
 import center.helloworld.starter.redis.service.RedisService;
 import com.alibaba.fastjson.JSONObject;

@@ -31,11 +31,6 @@ public class SecurityController {
     @Autowired
     private ValidateCodeService validateCodeService;
 
-    @GetMapping("oauth/test")
-    public String testOauth() {
-        return "oauth";
-    }
-
     @GetMapping("user")
     public Principal currentUser(Principal principal) {
         return principal;

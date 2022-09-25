@@ -1,8 +1,8 @@
-package center.helloworld.auth.config;
+package center.helloworld.auth.configure;
 
 import center.helloworld.auth.properties.WoguaAuthProperties;
-import center.helloworld.auth.service.RedisClientDetailsService;
-import center.helloworld.auth.service.WoguaUserDetailService;
+import center.helloworld.auth.service.impl.RedisClientDetailsService;
+import center.helloworld.auth.service.impl.WoguaUserDetailService;
 import center.helloworld.auth.service.impl.RedisAuthenticationCodeService;
 import center.helloworld.auth.translator.WoguaWebResponseExceptionTranslator;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -27,7 +26,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import javax.sql.DataSource;
 import java.util.UUID;
 
 /**

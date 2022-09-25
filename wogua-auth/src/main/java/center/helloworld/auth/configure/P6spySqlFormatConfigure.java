@@ -1,4 +1,4 @@
-package center.helloworld.auth;
+package center.helloworld.auth.configure;
 
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 import org.apache.commons.lang3.StringUtils;

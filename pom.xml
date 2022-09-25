@@ -18,6 +18,7 @@
         <module>wogua-starter/wogua-starter-security</module>
         <module>wogua-common/wogua-common-entity</module>
         <module>wogua-starter/wogua-starter-redis</module>
+        <module>wogua-gateway</module>
     </modules>
 
 
