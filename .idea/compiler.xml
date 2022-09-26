@@ -6,17 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="wogua-starter-datasource" />
         <module name="wogua-common-entity" />
-        <module name="wogua-gateway" />
-        <module name="wogua-auth" />
         <module name="wogua-starter-redis" />
         <module name="wogua-common" />
         <module name="wogua-starter-security" />
+        <module name="wogua-server-system-service" />
         <module name="wogua-server-demo-api" />
+        <module name="wogua-starter" />
+        <module name="wogua-starter-datasource" />
+        <module name="wogua-gateway" />
+        <module name="wogua-auth" />
         <module name="wogua-common-core" />
         <module name="wogua-server-demo-service" />
-        <module name="wogua-starter" />
+        <module name="wogua-server-system-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -36,6 +38,9 @@
       <module name="wogua-server-demo" options="-parameters" />
       <module name="wogua-server-demo-api" options="-parameters" />
       <module name="wogua-server-demo-service" options="-parameters" />
+      <module name="wogua-server-system" options="-parameters" />
+      <module name="wogua-server-system-api" options="-parameters" />
+      <module name="wogua-server-system-service" options="-parameters" />
       <module name="wogua-starter" options="-parameters" />
       <module name="wogua-starter-datasource" options="-parameters" />
       <module name="wogua-starter-redis" options="-parameters" />

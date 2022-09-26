@@ -19,6 +19,11 @@
     <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-demo/wogua-server-demo-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-demo/wogua-server-demo-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-demo/wogua-server-demo-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-system/wogua-server-system-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-system/wogua-server-system-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wogua-server/wogua-server-system/wogua-server-system-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/wogua-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/wogua-starter/wogua-starter-datasource/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/wogua-starter/wogua-starter-redis/src/main/java" charset="UTF-8" />

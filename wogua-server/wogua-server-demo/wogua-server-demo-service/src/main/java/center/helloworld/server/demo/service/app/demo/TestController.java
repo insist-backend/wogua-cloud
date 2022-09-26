@@ -27,10 +27,17 @@ public class TestController {
     public String useradd(){
         return "wogua-useradd";
     }
+
     @GetMapping("userupdate")
     @PreAuthorize("hasAnyAuthority('user:update')")
     public String userupdate(){
         return "wogua-userupdate";
+    }
+
+    @GetMapping("usertest")
+    @PreAuthorize("hasAnyAuthority('user:test')")
+    public String usertest(){
+        return "wogua-test";
     }
 
 

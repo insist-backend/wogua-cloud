@@ -1,5 +1,5 @@
 server:
-  port: 8201
+  port: 10001
 
 spring:
   main:
@@ -7,13 +7,13 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   application:
-    name: WoGua-Server-Demo
+    name: WoGua-Server-System
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
   redis:
-    database: 0
+    database: 2
     host: 192.168.111.17
     port: 6379
     jedis:
@@ -32,16 +32,6 @@ security:
       user-info-uri: http://localhost:8301/auth/user
 
 wogua:
-  frontUrl: 'http://localhost:9527'
-  doc:
-    enable: true
-    title: ${spring.application.name}文档
-    base-package: cc.mrbird.febs.auth.controller
-    description: ${febs.doc.title}
-    name: MrBird
-    email: 852252810@qq.com
-    url: https://mrbird.cc
-    version: 2.2-RELEASE
   cloud:
     security:
       enable: true

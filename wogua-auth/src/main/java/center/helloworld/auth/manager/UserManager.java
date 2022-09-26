@@ -6,6 +6,7 @@ import center.helloworld.common.core.entity.system.Menu;
 import center.helloworld.common.core.entity.system.SystemUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,5 +32,11 @@ public class UserManager {
             perms.add(m.getPerms());
         }
         return StringUtils.join(perms, ",");
+    }
+
+    public static void main(String[] args) {
+        String stalt = BCrypt.gensalt();
+        String hashpw = BCrypt.hashpw("123456", stalt);
+        System.out.println(hashpw);
     }
 }

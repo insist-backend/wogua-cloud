@@ -46,9 +46,9 @@ public class WoguaAuthorizationServerConfigure extends AuthorizationServerConfig
 
     private final AuthenticationManager authenticationManager;
 
-    private WoguaUserDetailService userDetailService;
+    private final WoguaUserDetailService userDetailService;
 
-    private RedisConnectionFactory redisConnectionFactory;
+    private final RedisConnectionFactory redisConnectionFactory;
 
     private final WoguaWebResponseExceptionTranslator exceptionTranslator;
 
