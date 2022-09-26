@@ -35,7 +35,12 @@
         </dependency>
         <dependency>
             <groupId>center.helloworld</groupId>
-            <artifactId>wogua-common-core</artifactId>
+            <artifactId>wogua-common-entity</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>center.helloworld</groupId>
+            <artifactId>wogua-starter-datasource</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

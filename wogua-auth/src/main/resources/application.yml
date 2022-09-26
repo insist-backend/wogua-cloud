@@ -16,13 +16,18 @@ spring:
         min-idle: 5
         connection-test-query: select 1
         pool-name: WoGuaHikariCP
-      primary: base
+      primary: auth
       datasource:
-        base:
+        system:
           username: root
           password: zhishun.cai
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://47.100.22.236:3306/wogua_cloud?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+          url: jdbc:mysql://47.100.22.236:3306/wogua_cloud_system?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+        auth:
+          username: root
+          password: zhishun.cai
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://47.100.22.236:3306/wogua_cloud_auth?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
 
   cloud:
     nacos:
@@ -30,7 +35,7 @@ spring:
         server-addr: 127.0.0.1:8848
   redis:
     database: 2
-    host: 192.168.111.17
+    host: 127.0.0.1
     port: 6379
     jedis:
       pool:
@@ -39,11 +44,10 @@ spring:
         max-active: 2000
         max-wait: 10000
     timeout: 5000
-    password: prinfo
 
 mybatis-plus:
   type-aliases-package: center.helloworld.common.core.entity
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:mappers/*.xml
   configuration:
     jdbc-type-for-null: null
   global-config:

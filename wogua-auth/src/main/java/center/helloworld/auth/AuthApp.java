@@ -24,8 +24,4 @@ public class AuthApp {
         SpringApplication.run(AuthApp.class, args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

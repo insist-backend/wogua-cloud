@@ -12,6 +12,14 @@ public enum ResCode {
     SUCCESS(true, 1, "操作成功"),
     SYSTEM_ERROR(false, 2, "系统异常"),
     ERROR_REQUEST_PARAMS(false, 3, "请求参数错误"),
+    // 权限
+    ERROR_PERMISSION_EXIST(false,4,"权限已存在"),
+
+    ERROR_ROLE_EXIST(false,5,"角色名称已存在"),
+
+    ERROR_EMIAL_EXIST(false,6,"邮箱号已存在"),
+    // -- 手机 --
+    ERROR_MOBILE_EXIST(false,7,"手机号已存在"),
 
     ;
 

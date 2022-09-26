@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="center.helloworld.auth.manager.SysPermissionMapper">
+
+    <!-- 根据用户ID查询 -->
+    <select id="findByUserId" resultType="center.helloworld.common.entity.system.SysPermission">
+        SELECT
+            permission.*
+        FROM
+        sys_permission permission
+        LEFT JOIN sys_role_permission role_permission ON permission.id = role_permission.permission_id
+        LEFT JOIN sys_role role ON role.id = role_permission.role_id
+        LEFT JOIN sys_user_role user_role ON user_role.role_id = role.id
+        WHERE user_role.user_id = #{userId}
+    </select>
+
+    <!-- 排序列表 -->
+    <select id="orderList" resultType="center.helloworld.common.entity.system.SysPermission">
+        select * from  sys_permission order by pid ASC, zindex ASC
+    </select>
+
+    <!-- 根据角色ID查询权限信息 -->
+    <select id="findByRole" resultType="center.helloworld.common.entity.system.SysPermission">
+        SELECT
+            permission.*
+        FROM
+        sys_permission permission
+        LEFT JOIN sys_role_permission role_permission ON permission.id = role_permission.permission_id
+        WHERE role_permission.role_id = #{roleId}
+    </select>
+
+    <!-- 查询用户权限 -->
+    <select id="findUserPermissions" resultType="java.lang.String">
+        SELECT
+                GROUP_CONCAT(DISTINCT(p.`code`))
+        FROM
+                `sys_user` u
+                        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+                        LEFT JOIN sys_role_permission rp ON rp.role_id = ur.role_id
+                        LEFT JOIN sys_permission p ON p.id = rp.permission_id
+        WHERE u.id = #{userId}
+
+    </select>
+</mapper>

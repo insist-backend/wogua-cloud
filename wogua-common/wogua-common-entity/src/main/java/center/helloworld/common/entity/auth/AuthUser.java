@@ -1,10 +1,14 @@
 package center.helloworld.common.entity.auth;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,29 +18,42 @@ public class AuthUser extends User {
 
     private static final long serialVersionUID = -6411066541689297219L;
 
-    private Long userId;
+    private Integer id;
 
-    private String avatar;
+    /**
+     * 用户名
+     */
+    private String username;
 
-    private String email;
-
+    /**
+     * 手机
+     */
     private String mobile;
 
-    private String sex;
+    /**
+     * 邮箱
+     */
+    private String mail;
 
-    private Long deptId;
+    /**
+     * 性别
+     */
+    private Integer gender = 1;
 
-    private String deptName;
+    /**
+     * 0 未锁定 1 锁定
+     */
+    private Integer lock = 0;
 
-    private String roleId;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createtime;
 
-    private String roleName;
-
-    private Date lastLoginTime;
-
-    private String description;
-
-    private String status;
+    /**
+     * 修改时间
+     */
+    private LocalDateTime updatetime;
 
 
 

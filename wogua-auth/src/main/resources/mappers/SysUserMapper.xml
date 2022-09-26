@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="center.helloworld.auth.manager.SysUserMapper">
+    <!-- 分页 -->
+    <select id="page" resultType="center.helloworld.common.entity.system.SysUser">
+        select
+            user.*,
+            GROUP_CONCAT(role.id) role_ids,
+            GROUP_CONCAT(role.name) role_names
+        from sys_user user
+        left join sys_user_role user_role on user_role.user_id = user.id
+        left join sys_role role on role.id = user_role.role_id
+        group by user.id
+        <if test="searchKey != null and searchKey.trim() != ''">
+            HAVING
+            user.username like CONCAT('%',#{searchKey},'%')
+            OR  role_names like CONCAT('%',#{searchKey},'%')
+        </if>
+        ORDER BY user.id DESC
+    </select>
+
+    <!-- 根据手机号查询 -->
+    <select id="findByMobile" resultType="center.helloworld.common.entity.system.SysUser">
+        select * from sys_user where mobile = #{mobile}
+    </select>
+</mapper>
