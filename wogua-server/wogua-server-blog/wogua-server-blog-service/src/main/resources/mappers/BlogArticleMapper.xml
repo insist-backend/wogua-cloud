@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="center.helloworld.server.blog.service.app.mapper.BlogArticleMapper">
+
+    <!-- 分页 -->
+    <select id="page" resultType="center.helloworld.common.entity.blog.BlogArticle">
+        SELECT
+            article.id,
+            article.title,
+            article.sub_title,
+            article.createtime,
+            GROUP_CONCAT(DISTINCT(category.name) ORDER BY category.id DESC) category_names,
+            GROUP_CONCAT(DISTINCT(tag.name) ORDER BY tag.id DESC) tag_names
+        FROM
+        blog_article article
+        LEFT JOIN blog_article_category article_category ON article_category.article_id = article.id
+        LEFT JOIN blog_category category ON article_category.category_id = category.id
+        LEFT JOIN blog_article_tag article_tag ON article_tag.article_id = article.id
+        LEFT JOIN blog_tag tag ON article_tag.tag_id = tag.id
+        <where>
+            <if test="searchVO != null">
+                <if test="searchVO.searchKey != null and searchVO.searchKey.trim() != ''">
+                        article.title LIKE CONCAT('%',#{searchVO.searchKey},'%')
+                    or  article.sub_title LIKE CONCAT('%',#{searchVO.searchKey},'%')
+                </if>
+                <if test="searchVO.categories !=null and searchVO.categories.size() > 0">
+                    <foreach collection="searchVO.categories" item="category" separator="," open="AND category.id IN (" close=")">
+                        #{category}
+                    </foreach>
+                </if>
+                <if test="searchVO.tags !=null and searchVO.tags.size() > 0">
+                    <foreach collection="searchVO.tags" item="tag" separator="," open="AND tag.id IN (" close=")">
+                        #{tag}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+        GROUP BY article.id
+        ORDER BY article.id DESC
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="findById" resultType="center.helloworld.common.entity.blog.BlogArticle">
+        SELECT
+            article.*,
+            GROUP_CONCAT(DISTINCT(category.id) ORDER BY category.id DESC) category_ids,
+            GROUP_CONCAT(DISTINCT(category.name) ORDER BY category.id DESC) category_names,
+            GROUP_CONCAT(DISTINCT(tag.id) ORDER BY tag.id DESC) tag_ids,
+            GROUP_CONCAT(DISTINCT(tag.name) ORDER BY tag.id DESC) tag_names
+        FROM
+        blog_article article
+        LEFT JOIN blog_article_category article_category ON article_category.article_id = article.id
+        LEFT JOIN blog_category category ON article_category.category_id = category.id
+        LEFT JOIN blog_article_tag article_tag ON article_tag.article_id = article.id
+        LEFT JOIN blog_tag tag ON article_tag.tag_id = tag.id
+        where article.id = #{id}
+        GROUP BY article.id
+    </select>
+</mapper>

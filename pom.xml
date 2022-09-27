@@ -20,6 +20,9 @@
         <module>wogua-starter/wogua-starter-redis</module>
         <module>wogua-gateway</module>
         <module>wogua-server/wogua-server-system</module>
+        <module>wogua-server/wogua-server-blog</module>
+        <module>wogua-server/wogua-server-blog/wogua-server-blog-service</module>
+        <module>wogua-server/wogua-server-blog/wogua-server-blog-api</module>
     </modules>
 
 

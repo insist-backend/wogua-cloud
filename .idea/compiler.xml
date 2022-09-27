@@ -6,7 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="wogua-server-blog" />
         <module name="wogua-common-entity" />
+        <module name="wogua-server-blog-api" />
+        <module name="wogua-server-blog-service" />
         <module name="wogua-starter-redis" />
         <module name="wogua-common" />
         <module name="wogua-starter-security" />
@@ -35,6 +38,9 @@
       <module name="wogua-common-utils" options="-parameters" />
       <module name="wogua-gateway" options="-parameters" />
       <module name="wogua-server" options="-parameters" />
+      <module name="wogua-server-blog" options="-parameters" />
+      <module name="wogua-server-blog-api" options="-parameters" />
+      <module name="wogua-server-blog-service" options="-parameters" />
       <module name="wogua-server-demo" options="-parameters" />
       <module name="wogua-server-demo-api" options="-parameters" />
       <module name="wogua-server-demo-service" options="-parameters" />
